@@ -9,8 +9,15 @@
   <meta property="og:title" content="JUGGS — The most talked-about pair on Arc" />
   <meta property="og:description" content="Day one on Arc. Uniswap v4. No utility, no promises, just the pair everyone is staring at." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/img/og.png" />
+  <meta property="og:url" content="https://tempestline.github.io/juggs/" />
+  <meta property="og:image" content="https://tempestline.github.io/juggs/assets/img/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="JUGGS — The most talked-about pair on Arc" />
+  <meta name="twitter:description" content="Day one on Arc. Uniswap v4. No utility, no promises, just the pair everyone is staring at." />
+  <meta name="twitter:image" content="https://tempestline.github.io/juggs/assets/img/og.png" />
+  <link rel="canonical" href="https://tempestline.github.io/juggs/" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
 
   <link rel="preload" href="assets/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
@@ -65,7 +72,7 @@
       <a class="btn btn--solid magnetic" id="buyLinkNav" href="https://app.uniswap.org/swap?chain=arc&outputCurrency=0x8D58B75afee1D6159250289195302d72dcc4c71D" target="_blank" rel="noopener" data-hover="Swap">
         <span>Buy $JUGGS</span>
       </a>
-      <button class="nav__burger" id="burger" aria-label="Menu" data-hover><i></i><i></i></button>
+      <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu" data-hover><i></i><i></i></button>
     </div>
   </header>
 
@@ -89,7 +96,7 @@
         <span class="eyebrow eyebrow--right">Uniswap v4 · USDC pair</span>
       </div>
 
-      <h1 class="hero__title" aria-label="JUGGS">
+      <h1 class="hero__title" aria-label="$JUGGS">
         <span class="hero__dollar">$</span><span class="hero__word">JUGGS</span>
       </h1>
 
@@ -111,7 +118,7 @@
           <span class="ca__short">0x8D58…c71D</span>
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
         </button>
-        <span class="ca__copied" id="caCopied">Copied</span>
+        <span class="ca__copied" id="caCopied" aria-live="polite">Copied</span>
       </div>
 
       <div class="hero__scroll"><span>Scroll</span><i></i></div>
@@ -160,13 +167,18 @@
       <div class="pair__grid">
         <div class="pair__media">
           <figure class="frame frame--tall" data-reveal-mask>
-            <div class="frame__art art art--1"><span class="art__mark">J</span></div>
-            <figcaption><span>Muse</span><span>Editorial · 01</span></figcaption>
+            <div class="frame__art">
+              <div class="art"><canvas class="art-silk" data-seed="11" data-palette="cherry" aria-hidden="true"></canvas></div>
+              <span class="art__word" aria-hidden="true">Muse</span>
+              <span class="art__code mono">00A · JUGGS · 2026</span>
+              <i class="art__rail" aria-hidden="true"></i>
+            </div>
+            <figcaption><span>Muse</span><span>00A</span></figcaption>
           </figure>
         </div>
         <div class="pair__text">
           <h2 class="display" data-split>Every cycle has a face. <em>This one has two.</em></h2>
-          <p class="lede" data-reveal>JUGGS is the first meme to hit Circle's Arc chain the day it went live. Block-one energy, institutional rails, degenerate spirit.</p>
+          <p class="lede" data-reveal>JUGGS launched on Circle's Arc chain the day the chain went live. Block-one energy, institutional rails, degenerate spirit.</p>
           <p data-reveal>There is no product. There is no roadmap to a product. There is a pair on Uniswap v4, quoted in USDC, and an internet that cannot stop looking. That is the whole thesis.</p>
           <ul class="pair__facts" data-reveal>
             <li><span>Chain</span><strong>Arc · Circle L1</strong></li>
@@ -189,7 +201,7 @@
         <div class="nrow" data-reveal>
           <span class="nrow__label">Total supply</span>
           <span class="nrow__value mono"><span data-count="1000000000">0</span></span>
-          <span class="nrow__note">One billion. No mint function games.</span>
+          <span class="nrow__note">One billion, fixed at launch. <a href="https://explorer.arc.io/token/0x8D58B75afee1D6159250289195302d72dcc4c71D" target="_blank" rel="noopener" data-hover="Open">Read the contract ↗</a></span>
         </div>
         <div class="nrow" data-reveal>
           <span class="nrow__label">Gas token</span>
@@ -267,13 +279,53 @@
         <div class="lookbook__track" id="lookTrack">
           <div class="lookbook__intro">
             <h2 class="display" data-split>A pair worth <em>scrolling for.</em></h2>
-            <p>Five frames. Drag or scroll.</p>
+            <p>Five frames. Keep scrolling.</p>
           </div>
-          <figure class="frame frame--look"><div class="frame__art art art--2"><span class="art__mark">01</span></div><figcaption><span>Editorial</span><span>Cherry</span></figcaption></figure>
-          <figure class="frame frame--look frame--wide"><div class="frame__art art art--3"><span class="art__mark">02</span></div><figcaption><span>Editorial</span><span>Champagne</span></figcaption></figure>
-          <figure class="frame frame--look"><div class="frame__art art art--4"><span class="art__mark">03</span></div><figcaption><span>Editorial</span><span>Noir</span></figcaption></figure>
-          <figure class="frame frame--look frame--wide"><div class="frame__art art art--5"><span class="art__mark">04</span></div><figcaption><span>Editorial</span><span>Silk</span></figcaption></figure>
-          <figure class="frame frame--look"><div class="frame__art art art--1"><span class="art__mark">05</span></div><figcaption><span>Editorial</span><span>Encore</span></figcaption></figure>
+          <figure class="frame frame--look">
+            <div class="frame__art">
+              <div class="art"><canvas class="art-silk" data-seed="2" data-palette="cherry" aria-hidden="true"></canvas></div>
+              <span class="art__word" aria-hidden="true">Cherry</span>
+              <span class="art__code mono">01A · JUGGS · 2026</span>
+              <i class="art__rail" aria-hidden="true"></i>
+            </div>
+            <figcaption><span>Cherry</span><span>01A</span></figcaption>
+          </figure>
+          <figure class="frame frame--look frame--wide">
+            <div class="frame__art">
+              <div class="art"><canvas class="art-silk" data-seed="3" data-palette="champagne" aria-hidden="true"></canvas></div>
+              <span class="art__word" aria-hidden="true">Champagne</span>
+              <span class="art__code mono">02A · JUGGS · 2026</span>
+              <i class="art__rail" aria-hidden="true"></i>
+            </div>
+            <figcaption><span>Champagne</span><span>02A</span></figcaption>
+          </figure>
+          <figure class="frame frame--look">
+            <div class="frame__art">
+              <div class="art"><canvas class="art-silk" data-seed="4" data-palette="noir" aria-hidden="true"></canvas></div>
+              <span class="art__word" aria-hidden="true">Noir</span>
+              <span class="art__code mono">03A · JUGGS · 2026</span>
+              <i class="art__rail" aria-hidden="true"></i>
+            </div>
+            <figcaption><span>Noir</span><span>03A</span></figcaption>
+          </figure>
+          <figure class="frame frame--look frame--wide">
+            <div class="frame__art">
+              <div class="art"><canvas class="art-silk" data-seed="5" data-palette="silk" aria-hidden="true"></canvas></div>
+              <span class="art__word" aria-hidden="true">Silk</span>
+              <span class="art__code mono">04A · JUGGS · 2026</span>
+              <i class="art__rail" aria-hidden="true"></i>
+            </div>
+            <figcaption><span>Silk</span><span>04A</span></figcaption>
+          </figure>
+          <figure class="frame frame--look">
+            <div class="frame__art">
+              <div class="art"><canvas class="art-silk" data-seed="6" data-palette="encore" aria-hidden="true"></canvas></div>
+              <span class="art__word" aria-hidden="true">Encore</span>
+              <span class="art__code mono">05A · JUGGS · 2026</span>
+              <i class="art__rail" aria-hidden="true"></i>
+            </div>
+            <figcaption><span>Encore</span><span>05A</span></figcaption>
+          </figure>
           <div class="lookbook__end"><p class="display">Fin.</p></div>
         </div>
       </div>
@@ -297,13 +349,13 @@
         <div class="phase" data-reveal>
           <span class="phase__num">II</span>
           <h3>Exposure</h3>
-          <p>DexScreener profile, CoinGecko and CMC listings, community X and Telegram, first wave of memes.</p>
+          <p>Targeting a DexScreener profile, CoinGecko and CMC listings, community X and Telegram, first wave of memes.</p>
           <span class="phase__state">Next</span>
         </div>
         <div class="phase" data-reveal>
           <span class="phase__num">III</span>
           <h3>Gravity</h3>
-          <p>Deeper liquidity, wallet token-list inclusion, collabs with the first Arc-native projects.</p>
+          <p>Aiming for deeper liquidity, wallet token-list inclusion and collabs with the first Arc-native projects. No guarantees, just intent.</p>
           <span class="phase__state">Later</span>
         </div>
         <div class="phase" data-reveal>
@@ -319,8 +371,8 @@
     <section class="cta" id="community">
       <h2 class="cta__title" data-split-lines>Join <em>the pair.</em></h2>
       <div class="cta__links">
-        <a class="pill magnetic" id="linkX" href="#" data-hover="Soon"><span>X / Twitter</span></a>
-        <a class="pill magnetic" id="linkTg" href="#" data-hover="Soon"><span>Telegram</span></a>
+        <span class="pill pill--soon" id="linkX" aria-disabled="true"><span>X / Twitter</span><i>Soon</i></span>
+        <span class="pill pill--soon" id="linkTg" aria-disabled="true"><span>Telegram</span><i>Soon</i></span>
         <a class="pill magnetic" href="https://dexscreener.com/arc/0xe6e3cb83850dc54452ebb4183c6a5280773fa49a96adf477e39825202fef1056" target="_blank" rel="noopener" data-hover="Chart"><span>DexScreener</span></a>
         <a class="pill magnetic" href="https://explorer.arc.io/token/0x8D58B75afee1D6159250289195302d72dcc4c71D" target="_blank" rel="noopener" data-hover="Open"><span>Arc Explorer</span></a>
       </div>
@@ -349,8 +401,8 @@
         </div>
         <div>
           <span>Community</span>
-          <a href="#" data-hover>X / Twitter</a>
-          <a href="#" data-hover>Telegram</a>
+          <span class="footer__soon">X / Twitter <i>soon</i></span>
+          <span class="footer__soon">Telegram <i>soon</i></span>
         </div>
       </div>
     </div>
@@ -358,8 +410,10 @@
     <p class="footer__legal">JUGGS is a meme token with no intrinsic value, no team promises and no expectation of financial return. It exists for entertainment. Crypto assets are volatile and you can lose everything you put in. Nothing on this site is financial advice. JUGGS is an independent community project and is not affiliated with, endorsed by, or connected to Sydney Sweeney, Circle, Arc, or Uniswap Labs. Always verify the contract address before trading.</p>
     <div class="footer__bottom">
       <span>© 2026 JUGGS community</span>
+      <a href="#top" class="footer__top-link" data-hover="Top">Back to top ↑</a>
       <span>Built on Arc · Day one</span>
     </div>
+    <div class="footer__mark" aria-hidden="true">JUGGS</div>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>

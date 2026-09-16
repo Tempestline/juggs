@@ -33,7 +33,7 @@
   }
   function scrollTo(target) {
     if (lenis) lenis.scrollTo(target, { offset: -80, duration: 1.4 });
-    else { const el = typeof target === 'string' ? $(target) : target; el && el.scrollIntoView({ behavior: 'smooth' }); }
+    else { const el = typeof target === 'string' ? $(target) : target; el && el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); }
   }
   $$('a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
@@ -74,8 +74,8 @@
         if (hasST) ScrollTrigger.refresh();
       }
     });
-    tl.to(loader, { yPercent: -100, duration: 1.1, ease: 'expo.inOut' }, 0)
-      .call(() => window.SILK && window.SILK.reveal(2200), null, 0.4)
+    tl.call(() => window.SILK && window.SILK.reveal(1100), null, 0.15)
+      .to(loader, { yPercent: -100, duration: 1.1, ease: 'expo.inOut' }, 0)
       .from('.hero__top .eyebrow', { y: 16, opacity: 0, duration: 1, stagger: 0.08 }, 0.6);
     if (chars) tl.from(chars, { yPercent: 110, duration: 1.4, stagger: 0.05, ease: 'expo.out' }, 0.55);
     else tl.from(heroTitle, { y: 60, opacity: 0, duration: 1.2 }, 0.55);
@@ -89,12 +89,12 @@
 
   function preload() {
     const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-    const minTime = new Promise((r) => setTimeout(r, reduced ? 0 : 1500));
+    const minTime = new Promise((r) => setTimeout(r, reduced ? 0 : 800));
     const counter = { v: 0 };
     if (hasGSAP && !reduced) {
       gsap.to('.loader__word span', { y: 0, duration: 1.1, stagger: 0.06, ease: 'expo.out', delay: 0.1 });
       gsap.to(counter, {
-        v: 100, duration: 1.6, ease: 'power2.inOut', delay: 0.2,
+        v: 100, duration: 0.9, ease: 'power2.inOut', delay: 0.1,
         onUpdate() {
           countEl.textContent = String(Math.round(counter.v)).padStart(2, '0');
           barEl.style.width = counter.v + '%';
@@ -103,7 +103,7 @@
     }
     Promise.all([fontsReady, minTime]).then(() => {
       countEl.textContent = '100'; barEl.style.width = '100%';
-      setTimeout(runIntro, 250);
+      setTimeout(runIntro, 120);
     });
   }
   if (document.readyState === 'complete') preload();
@@ -144,14 +144,14 @@
   /* ---------------- Magnetic buttons ---------------- */
   if (finePointer && !reduced && hasGSAP) {
     $$('.magnetic').forEach((el) => {
-      const strength = 0.35;
+      const strength = 0.22;
       el.addEventListener('pointermove', (e) => {
         const r = el.getBoundingClientRect();
         const x = e.clientX - (r.left + r.width / 2);
         const y = e.clientY - (r.top + r.height / 2);
         gsap.to(el, { x: x * strength, y: y * strength, duration: 0.6, ease: 'power3.out' });
       });
-      el.addEventListener('pointerleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1, 0.4)' }));
+      el.addEventListener('pointerleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'power4.out' }));
     });
   }
 
@@ -168,6 +168,7 @@
   $('#burger').addEventListener('click', () => {
     const open = document.body.classList.toggle('menu-open');
     $('#menu').setAttribute('aria-hidden', String(!open));
+    $('#burger').setAttribute('aria-expanded', String(open));
     if (lenis) open ? lenis.stop() : lenis.start();
   });
 
@@ -175,11 +176,16 @@
   const caBtn = $('#caBtn');
   const caCopied = $('#caCopied');
   caBtn.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(CA); }
+    let ok = false;
+    try { await navigator.clipboard.writeText(CA); ok = true; }
     catch (e) {
-      const ta = document.createElement('textarea'); ta.value = CA; document.body.appendChild(ta); ta.select();
-      document.execCommand('copy'); ta.remove();
+      try {
+        const ta = document.createElement('textarea'); ta.value = CA; ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+        ok = document.execCommand('copy'); ta.remove();
+      } catch (e2) { ok = false; }
     }
+    caCopied.textContent = ok ? 'Copied' : 'Copy failed';
     caCopied.classList.add('is-on');
     setTimeout(() => caCopied.classList.remove('is-on'), 1800);
   });
@@ -228,6 +234,9 @@
   fetchStats();
   setInterval(fetchStats, 30000);
 
+  /* ---------------- Counters: static value first ---------------- */
+  $$('[data-count]').forEach((el) => { el.textContent = Number(el.getAttribute('data-count')).toLocaleString('en-US'); });
+
   /* ---------------- Scroll animations ---------------- */
   if (!hasGSAP || reduced) return;
 
@@ -236,13 +245,14 @@
     const track = $('#marquee');
     if (!track) return;
     track.innerHTML += track.innerHTML;
-    const half = () => track.scrollWidth / 2;
+    let half = track.scrollWidth / 2;
+    window.addEventListener('resize', () => { half = track.scrollWidth / 2; }, { passive: true });
     let x = 0, speed = 0.6, vel = 0;
     if (lenis) lenis.on('scroll', (e) => { vel = e.velocity; });
     gsap.ticker.add(() => {
       const boost = Math.min(Math.abs(vel) * 0.04, 3);
       x -= speed + boost;
-      if (x <= -half()) x += half();
+      if (x <= -half) x += half;
       track.style.transform = `translate3d(${x}px,0,0)`;
       vel *= 0.9;
     });
@@ -291,9 +301,9 @@
       scrollTrigger: { trigger: el, start: 'top 80%', once: true }
     });
   });
-  $$('.frame__art .art').forEach((el) => {
-    gsap.fromTo(el, { yPercent: -6 }, {
-      yPercent: 6, ease: 'none',
+  $$('.frame--tall .art').forEach((el) => {
+    gsap.fromTo(el, { yPercent: -5 }, {
+      yPercent: 5, ease: 'none',
       scrollTrigger: { trigger: el.closest('.frame'), start: 'top bottom', end: 'bottom top', scrub: true }
     });
   });
@@ -302,10 +312,11 @@
   $$('[data-count]').forEach((el) => {
     const target = Number(el.getAttribute('data-count'));
     const obj = { v: 0 };
-    gsap.to(obj, {
-      v: target, duration: 2.2, ease: 'expo.out',
-      scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-      onUpdate() { el.textContent = Math.round(obj.v).toLocaleString('en-US'); }
+    ScrollTrigger.create({
+      trigger: el, start: 'top 85%', once: true,
+      onEnter() {
+        gsap.fromTo(obj, { v: 0 }, { v: target, duration: 2.2, ease: 'expo.out', onUpdate() { el.textContent = Math.round(obj.v).toLocaleString('en-US'); } });
+      }
     });
   });
 
@@ -316,7 +327,7 @@
       cards.forEach((card, i) => {
         if (i === cards.length - 1) return;
         gsap.to(card, {
-          scale: 0.92 - (cards.length - 1 - i) * 0.02, opacity: 0.55, ease: 'none',
+          scale: 1 - (cards.length - 1 - i) * 0.03, '--dim': 0.55, ease: 'none',
           scrollTrigger: { trigger: cards[i + 1], start: 'top 80%', end: 'top 20%', scrub: true }
         });
       });
@@ -334,8 +345,8 @@
           }
         });
         $$('.frame--look .art').forEach((art) => {
-          gsap.fromTo(art, { xPercent: -5 }, {
-            xPercent: 5, ease: 'none',
+          gsap.fromTo(art, { xPercent: -4 }, {
+            xPercent: 4, ease: 'none',
             scrollTrigger: { trigger: pin, start: 'top top', end: () => '+=' + dist(), scrub: true }
           });
         });
@@ -350,9 +361,13 @@
   });
 
   // CTA gradient breathe
-  gsap.fromTo('.cta__title', { scale: 0.92 }, {
-    scale: 1, ease: 'none',
-    scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'center center', scrub: true }
+  gsap.fromTo('.cta__title', { yPercent: 12 }, {
+    yPercent: -6, ease: 'none',
+    scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+  gsap.fromTo('.footer__mark', { yPercent: 30 }, {
+    yPercent: 0, ease: 'none',
+    scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'bottom bottom', scrub: true }
   });
 
   window.addEventListener('load', () => ScrollTrigger.refresh());
