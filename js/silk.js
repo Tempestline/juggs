@@ -58,18 +58,32 @@
       for(int i=0;i<4;i++){ v += a*noise(p); p = r*p*2.03 + 0.7; a *= 0.5; }
       return v;
     }
+    // Soft form: slope goes to zero at both the crown and the rim, so there is no
+    // sphere silhouette — it reads as a body under cloth rather than a ball.
     float dome(vec2 p, vec2 c, float r){
-      float d = length(p - c) / r;
-      float cap = sqrt(max(0.0, 1.0 - d*d));
-      float soft = exp(-d*d*2.2) * 0.35;
-      return cap * 0.85 + soft;
+      float d = length((p - c) * vec2(1.0, 1.08)) / r;
+      float s = smoothstep(1.0, 0.0, d);
+      return s * (0.62 + 0.38 * s);
     }
     float height(vec2 p, float t){
-      float cloth = fbm(p*2.2 + u_seed*7.31 + vec2(t*0.10, -t*0.07)) * 0.09;
-      float breathe = 1.0 + 0.012*sin(t*1.1);
-      float b = max(dome(p, vec2(-0.25, -0.05), 0.36*breathe), dome(p, vec2(0.25, -0.05), 0.36*breathe));
-      float fold = smoothstep(0.05, 0.0, abs(p.x)) * smoothstep(0.30, -0.35, p.y) * 0.10;
-      return b - fold + cloth;
+      float cloth = fbm(p*7.5 + u_seed*7.31 + vec2(t*0.10, -t*0.07)) * 0.030;
+      // silk folds falling across the chest — breaks the forms up so they read as cloth, not spheres
+      float folds = sin((p.x*5.2 - p.y*2.4) * 4.2 + fbm(p*3.4 + u_seed*3.1 + t*0.05) * 9.0) * 0.019;
+      float breathe = 1.0 + 0.010*sin(t*1.1);
+      // chest: one broad gaussian mound, edgeless in every direction, easing off at the waist
+      float chest = exp(-(p.x*p.x) / 0.62)
+                  * exp(-pow(max(0.0, p.y - 0.02) / 0.58, 2.0))
+                  * smoothstep(-1.05, -0.18, p.y) * 0.44;
+      // the pair, joined by a smooth union so the valley reads as a crease, not a seam
+      float a = dome(p, vec2(-0.245, -0.085), 0.44*breathe);
+      float b = dome(p, vec2( 0.245, -0.085), 0.44*breathe);
+      float k = 0.14;
+      float pair = max(a, b) + 0.5 * k * exp(-abs(a - b) / k);
+      // sternum crease and collarbone hollows
+      float cleav = smoothstep(0.115, 0.0, abs(p.x)) * smoothstep(0.30, -0.34, p.y) * 0.075;
+      float clav = (exp(-pow(length((p - vec2(-0.22, 0.34)) * vec2(0.85, 2.4)), 2.0) * 11.0)
+                 +  exp(-pow(length((p - vec2( 0.22, 0.34)) * vec2(0.85, 2.4)), 2.0) * 11.0)) * 0.055;
+      return chest + pair * 0.62 - cleav - clav + cloth + folds;
     }
     void main(){
       vec2 uv = gl_FragCoord.xy / u_res.xy;
@@ -79,17 +93,20 @@
       float h  = height(p, t);
       float hx = height(p + vec2(e, 0.0), t);
       float hy = height(p + vec2(0.0, e), t);
-      vec3 n = normalize(vec3(-(hx - h) / e * 0.22, -(hy - h) / e * 0.22, 1.0));
-      vec3 L = normalize(vec3(-0.45 + (u_mouse.x - 0.5) * 0.8, 0.75 + (u_mouse.y - 0.5) * 0.4, 0.55));
+      vec3 n = normalize(vec3(-(hx - h) / e * 0.42, -(hy - h) / e * 0.42, 1.0));
+      vec3 L = normalize(vec3(-0.60 + (u_mouse.x - 0.5) * 0.8, 0.72 + (u_mouse.y - 0.5) * 0.4, 0.40));
       vec3 V = vec3(0.0, 0.0, 1.0);
       vec3 H = normalize(L + V);
-      float diff = max(dot(n, L), 0.0);
-      float spec = pow(max(dot(n, H), 0.0), 28.0);
-      float rim  = pow(1.0 - max(dot(n, V), 0.0), 3.0);
-      float weave = 0.5 + 0.5 * sin(p.x * 46.0 + h * 26.0 + fbm(p * 5.0) * 5.0);
-      vec3 base = mix(u_c0, u_c1, smoothstep(0.05, 0.85, h));
-      vec3 col = base * (0.14 + 1.0 * diff) + u_c2 * spec * 0.9 + u_c3 * rim * 0.28;
-      col *= 0.93 + 0.07 * weave;
+      float nl = dot(n, L);
+      float diff = max(nl, 0.0);
+      float wrap = max(0.0, nl * 0.62 + 0.38);
+      // broad sheen rather than a point highlight: silk, and no hot spot sitting on a crown
+      float spec = pow(max(dot(n, H), 0.0), 6.0);
+      float rim  = pow(1.0 - max(dot(n, V), 0.0), 2.4);
+      float weave = 0.5 + 0.5 * sin(p.x * 46.0 + h * 10.0 + fbm(p * 5.0) * 5.0);
+      vec3 base = mix(u_c0, u_c1, smoothstep(0.02, 0.80, h));
+      vec3 col = base * (0.16 + 0.90 * diff + 0.22 * wrap) + u_c2 * spec * 0.16 + u_c3 * rim * 0.22;
+      col *= 0.94 + 0.06 * weave;
       float vig = smoothstep(1.3, 0.3, length((uv - 0.5) * vec2(1.3, 1.1)));
       col *= mix(0.35, 1.0, vig);
       col *= u_intro;

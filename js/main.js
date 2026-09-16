@@ -354,6 +354,18 @@
     }
   });
 
+  // Line art draws itself on when the frame actually enters view (IO is transform-aware, so it works inside the pinned lookbook)
+  $$('.art__svg--line').forEach((svg) => {
+    const paths = $$('path', svg);
+    paths.forEach((p) => { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
+    const io = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      gsap.to(paths, { strokeDashoffset: 0, duration: 1.8, stagger: 0.14, ease: 'power2.inOut', delay: 0.15 });
+    }, { threshold: 0.35 });
+    io.observe(svg);
+  });
+
   // Roadmap line
   gsap.to('#phaseLine', {
     width: '100%', ease: 'none',

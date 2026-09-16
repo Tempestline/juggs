@@ -427,6 +427,8 @@ img, svg, canvas { display: block; max-width: 100%; }
   filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.45));
 }
 .art__svg--cherry { padding: 14% 18%; }
+.art__svg--sil { padding: 0; filter: drop-shadow(0 0 26px rgba(216, 179, 106, 0.30)) drop-shadow(0 0 3px rgba(244, 237, 227, 0.22)); }
+.art__svg--line { padding: 10% 12%; }
 .art__meme {
   position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center;
   font-family: var(--serif); font-style: italic; font-size: clamp(3.4rem, 8vw, 8.5rem); letter-spacing: -0.02em;
