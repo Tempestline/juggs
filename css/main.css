@@ -421,6 +421,17 @@ img, svg, canvas { display: block; max-width: 100%; }
   position: absolute; top: 1rem; left: 1rem; z-index: 2;
   font-size: 0.62rem; letter-spacing: 0.14em; color: rgba(244, 237, 227, 0.7);
 }
+.art__svg {
+  position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; padding: 12% 14%;
+  color: rgba(244, 237, 227, 0.88); pointer-events: none;
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.45));
+}
+.art__svg--cherry { padding: 14% 18%; }
+.art__meme {
+  position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-size: clamp(3.4rem, 8vw, 8.5rem); letter-spacing: -0.02em;
+  color: var(--ink); text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5); pointer-events: none; white-space: nowrap;
+}
 .art__rail {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
@@ -582,6 +593,7 @@ img, svg, canvas { display: block; max-width: 100%; }
   .hero__dollar { margin-top: 0.42em; }
   .hero__tag { font-size: clamp(1.9rem, 8.6vw, 2.8rem); max-width: 11ch; }
   .art__word { font-size: clamp(4rem, 26vw, 7rem); }
+  .art__meme { font-size: clamp(2.6rem, 14vw, 5rem); }
   .frame--wide .art__word { font-size: clamp(4rem, 28vw, 7rem); }
   .hero__bottom { grid-template-columns: 1fr; gap: 1.5rem; }
   .hero__copy { justify-self: start; }

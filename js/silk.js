@@ -42,6 +42,62 @@
     }
   `;
 
+  // Drape: two soft forms under lit silk. Same uniforms as silk.
+  const FRAG_DRAPE = `
+    precision highp float;
+    uniform vec2 u_res; uniform float u_time; uniform vec2 u_mouse; uniform float u_intro;
+    uniform float u_seed; uniform float u_zoom;
+    uniform vec3 u_c0; uniform vec3 u_c1; uniform vec3 u_c2; uniform vec3 u_c3;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
+    float noise(vec2 p){
+      vec2 i = floor(p); vec2 f = fract(p); vec2 u = f*f*(3.0-2.0*f);
+      return mix(mix(hash(i), hash(i+vec2(1.,0.)), u.x), mix(hash(i+vec2(0.,1.)), hash(i+vec2(1.,1.)), u.x), u.y);
+    }
+    float fbm(vec2 p){
+      float v = 0.0; float a = 0.5; mat2 r = mat2(0.8, 0.6, -0.6, 0.8);
+      for(int i=0;i<4;i++){ v += a*noise(p); p = r*p*2.03 + 0.7; a *= 0.5; }
+      return v;
+    }
+    float dome(vec2 p, vec2 c, float r){
+      float d = length(p - c) / r;
+      float cap = sqrt(max(0.0, 1.0 - d*d));
+      float soft = exp(-d*d*2.2) * 0.35;
+      return cap * 0.85 + soft;
+    }
+    float height(vec2 p, float t){
+      float cloth = fbm(p*2.2 + u_seed*7.31 + vec2(t*0.10, -t*0.07)) * 0.09;
+      float breathe = 1.0 + 0.012*sin(t*1.1);
+      float b = max(dome(p, vec2(-0.25, -0.05), 0.36*breathe), dome(p, vec2(0.25, -0.05), 0.36*breathe));
+      float fold = smoothstep(0.05, 0.0, abs(p.x)) * smoothstep(0.30, -0.35, p.y) * 0.10;
+      return b - fold + cloth;
+    }
+    void main(){
+      vec2 uv = gl_FragCoord.xy / u_res.xy;
+      vec2 p = (uv - 0.5); p.x *= u_res.x / u_res.y; p *= u_zoom;
+      float t = u_time;
+      float e = 0.004;
+      float h  = height(p, t);
+      float hx = height(p + vec2(e, 0.0), t);
+      float hy = height(p + vec2(0.0, e), t);
+      vec3 n = normalize(vec3(-(hx - h) / e * 0.22, -(hy - h) / e * 0.22, 1.0));
+      vec3 L = normalize(vec3(-0.45 + (u_mouse.x - 0.5) * 0.8, 0.75 + (u_mouse.y - 0.5) * 0.4, 0.55));
+      vec3 V = vec3(0.0, 0.0, 1.0);
+      vec3 H = normalize(L + V);
+      float diff = max(dot(n, L), 0.0);
+      float spec = pow(max(dot(n, H), 0.0), 28.0);
+      float rim  = pow(1.0 - max(dot(n, V), 0.0), 3.0);
+      float weave = 0.5 + 0.5 * sin(p.x * 46.0 + h * 26.0 + fbm(p * 5.0) * 5.0);
+      vec3 base = mix(u_c0, u_c1, smoothstep(0.05, 0.85, h));
+      vec3 col = base * (0.14 + 1.0 * diff) + u_c2 * spec * 0.9 + u_c3 * rim * 0.28;
+      col *= 0.93 + 0.07 * weave;
+      float vig = smoothstep(1.3, 0.3, length((uv - 0.5) * vec2(1.3, 1.1)));
+      col *= mix(0.35, 1.0, vig);
+      col *= u_intro;
+      col += (hash(gl_FragCoord.xy + u_time) - 0.5) * 0.012;
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
   const PALETTES = {
     hero:      [[0.047,0.039,0.035],[0.30,0.09,0.13],[0.847,0.702,0.416],[1.0,0.184,0.306]],
     cherry:    [[0.10,0.03,0.05],[0.55,0.08,0.16],[1.0,0.42,0.51],[1.0,0.184,0.306]],
@@ -62,7 +118,7 @@
   }
 
   function create(canvas, opts) {
-    opts = Object.assign({ seed: 0, palette: 'hero', zoom: 1, intro: 1, resScale: 0.75, mouse: true }, opts || {});
+    opts = Object.assign({ seed: 0, palette: 'hero', zoom: 1, intro: 1, resScale: 0.75, mouse: true, mode: 'silk' }, opts || {});
     const state = { w: 0, h: 0, mx: 0.5, my: 0.5, tx: 0.5, ty: 0.5, intro: opts.intro, visible: true, start: performance.now(), gl: null, u: null, dead: false };
     const pal = PALETTES[opts.palette] || PALETTES.hero;
 
@@ -71,7 +127,7 @@
       if (!gl) { canvas.style.display = 'none'; state.dead = true; return; }
       const prog = gl.createProgram();
       gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT));
-      gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, FRAG));
+      gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, opts.mode === 'drape' ? FRAG_DRAPE : FRAG));
       gl.linkProgram(prog); gl.useProgram(prog);
       const buf = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
@@ -142,10 +198,10 @@
 
   // Hero
   const hero = document.getElementById('silk');
-  if (hero) window.SILK = create(hero, { seed: 0, palette: 'hero', intro: 0, resScale: 0.75, mouse: true });
+  if (hero) window.SILK = create(hero, { seed: 0, palette: 'hero', intro: 0, resScale: 0.75, mouse: true, mode: hero.dataset.mode || 'silk', zoom: hero.dataset.mode === 'drape' ? 0.85 : 1 });
 
   // Frames: <canvas class="art-silk" data-seed="3" data-palette="cherry">
   document.querySelectorAll('canvas.art-silk').forEach((c, i) => {
-    create(c, { seed: Number(c.dataset.seed || i + 1), palette: c.dataset.palette || 'cherry', zoom: Number(c.dataset.zoom || 1.4), intro: 1, resScale: 0.5, mouse: false });
+    create(c, { seed: Number(c.dataset.seed || i + 1), palette: c.dataset.palette || 'cherry', zoom: Number(c.dataset.zoom || (c.dataset.mode === 'drape' ? 1 : 1.4)), intro: 1, resScale: c.dataset.mode === 'drape' ? 0.7 : 0.5, mouse: c.dataset.mode === 'drape', mode: c.dataset.mode || 'silk' });
   });
 })();
