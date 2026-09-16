@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <!-- ===== JUGGS glossy cel kit ===== -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd8a6"/>
+      <stop offset="0.5" stop-color="#f9a78b"/>
+      <stop offset="1" stop-color="#e97a8d"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="0.2">
+      <stop offset="0" stop-color="#3b0b4e"/>
+      <stop offset="0.5" stop-color="#6a1d86"/>
+      <stop offset="1" stop-color="#2d0740"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.3" stop-color="#ffeaff" stop-opacity="0.75"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.7" stop-color="#ffeaff" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="sheenV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- irregular glitter tile -->
+    <pattern id="glitter" width="140" height="140" patternUnits="userSpaceOnUse">
+      <g fill="#fff">
+        <circle cx="7" cy="12" r="1.2" opacity=".9"/><circle cx="31" cy="5" r=".7" opacity=".6"/><circle cx="52" cy="21" r="1.5" opacity=".95"/>
+        <circle cx="19" cy="38" r=".9" opacity=".5"/><circle cx="88" cy="9" r="1.0" opacity=".8"/><circle cx="121" cy="27" r=".6" opacity=".7"/>
+        <circle cx="66" cy="47" r=".8" opacity=".85"/><circle cx="103" cy="52" r="1.3" opacity=".9"/><circle cx="135" cy="61" r=".7" opacity=".5"/>
+        <circle cx="12" cy="70" r="1.1" opacity=".75"/><circle cx="44" cy="79" r=".6" opacity=".9"/><circle cx="79" cy="84" r="1.6" opacity=".7"/>
+        <circle cx="116" cy="92" r=".9" opacity=".6"/><circle cx="27" cy="104" r="1.4" opacity=".85"/><circle cx="58" cy="117" r=".7" opacity=".95"/>
+        <circle cx="94" cy="122" r="1.0" opacity=".55"/><circle cx="132" cy="112" r="1.2" opacity=".8"/><circle cx="8" cy="131" r=".8" opacity=".7"/>
+        <circle cx="70" cy="136" r=".6" opacity=".6"/><circle cx="41" cy="58" r=".5" opacity=".9"/><circle cx="99" cy="33" r=".5" opacity=".8"/>
+        <circle cx="123" cy="76" r=".5" opacity=".7"/><circle cx="19" cy="90" r=".5" opacity=".9"/><circle cx="84" cy="105" r=".5" opacity=".6"/>
+      </g>
+    </pattern>
+    <symbol id="sparkle" viewBox="-1 -1 2 2">
+      <path d="M0 -1 C0.07 -0.28 0.28 -0.07 1 0 C0.28 0.07 0.07 0.28 0 1 C-0.07 0.28 -0.28 0.07 -1 0 C-0.28 -0.07 -0.07 -0.28 0 -1Z" fill="#fff"/>
+      <path d="M0 -0.42 C0.03 -0.12 0.12 -0.03 0.42 0 C0.12 0.03 0.03 0.12 0 0.42 C-0.03 0.12 -0.12 0.03 -0.42 0 C-0.12 -0.03 -0.03 -0.12 0 -0.42Z" fill="#fff" transform="rotate(45)"/>
+    </symbol>
+
+    <!-- ===== added for this piece ===== -->
+    <path id="bodyPath" d="M 236 -20 C 250 24, 256 62, 258 104 C 260 134, 254 156, 240 176 C 222 200, 190 216, 160 248 C 130 282, 118 316, 126 352 C 134 390, 164 416, 198 440 C 218 456, 230 492, 230 552 C 230 600, 224 640, 220 690 C 218 740, 218 780, 220 812 L 428 812 C 432 760, 436 710, 432 666 C 428 620, 406 596, 400 556 C 394 508, 408 460, 420 416 C 432 370, 440 320, 440 284 C 440 250, 436 226, 428 208 C 414 186, 390 172, 368 158 C 350 146, 342 104, 342 -20 Z"/>
+    <path id="armPath" d="M 412 -20 C 400 50, 386 116, 372 170 C 388 200, 420 218, 452 210 C 464 146, 480 62, 496 -20 Z"/>
+    <path id="topPath" d="M 137 288 C 121 310, 115 332, 124 358 C 134 392, 164 418, 198 442 C 218 458, 230 494, 230 554 C 300 592, 372 574, 408 522 C 418 478, 428 436, 434 396 C 442 350, 444 312, 442 284 C 412 314, 350 342, 288 340 C 226 338, 166 320, 137 288 Z"/>
+    <path id="frontEdge" d="M 236 -20 C 250 24, 256 62, 258 104 C 260 134, 254 156, 240 176 C 222 200, 190 216, 160 248 C 130 282, 118 316, 126 352 C 134 390, 164 416, 198 440 C 218 456, 230 492, 230 552 C 230 600, 224 640, 220 690 C 218 740, 218 780, 220 812"/>
+    <path id="backEdge" d="M 342 -20 C 342 104, 350 146, 368 158 C 390 172, 414 186, 428 208 C 436 226, 440 250, 440 284 C 440 320, 432 370, 420 416 C 408 460, 394 508, 400 556 C 406 596, 428 620, 432 666 C 436 710, 432 760, 428 812"/>
+    <clipPath id="bodyClip"><use href="#bodyPath"/></clipPath>
+    <clipPath id="armClip"><use href="#armPath"/></clipPath>
+    <clipPath id="topClip"><use href="#topPath"/></clipPath>
+  </defs>
+
+  <!-- background: backlight -->
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <ellipse cx="300" cy="340" rx="330" ry="370" fill="url(#glow)" opacity=".5"/>
+  <ellipse cx="140" cy="330" rx="200" ry="180" fill="url(#glow)" opacity=".45"/>
+  <ellipse cx="420" cy="120" rx="160" ry="160" fill="url(#glow)" opacity=".3"/>
+
+  <!-- ===== torso ===== -->
+  <use href="#bodyPath" fill="#eeba98"/>
+  <g clip-path="url(#bodyClip)">
+    <!-- form shadow: the body turns away from the front rim -->
+    <path d="M 292 -20 C 300 60, 302 128, 300 176 C 272 224, 216 260, 196 316 C 178 366, 196 416, 244 466 C 282 506, 300 570, 300 680 C 300 750, 298 790, 300 812 L 520 812 L 520 -20 Z" fill="#d89a78"/>
+    <path d="M 352 -20 C 356 76, 366 156, 384 236 C 406 328, 416 432, 408 566 C 402 686, 402 762, 404 812 L 520 812 L 520 -20 Z" fill="#bd8261"/>
+    <!-- under-jaw shadow across the neck -->
+    <path d="M 236 -20 C 254 40, 300 60, 346 44 L 346 -20 Z" fill="#d89a78"/>
+    <path d="M 286 -20 C 292 18, 312 40, 348 48 L 348 -20 Z" fill="#bd8261" opacity=".8"/>
+    <!-- neck muscle -->
+    <path d="M 276 16 C 272 70, 266 118, 254 162" fill="none" stroke="#b5785a" stroke-width="7" stroke-linecap="round" opacity=".4"/>
+    <!-- collarbone hint -->
+    <path d="M 250 186 C 282 204, 320 214, 358 214" fill="none" stroke="#b5785a" stroke-width="6" stroke-linecap="round" opacity=".4"/>
+    <path d="M 252 178 C 284 196, 322 206, 360 206" fill="none" stroke="#fbdcc2" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+    <!-- cast shadow of the raised arm onto the chest -->
+    <path d="M 366 160 C 336 190, 318 232, 314 280 C 342 240, 384 216, 430 214 C 402 202, 378 184, 366 160 Z" fill="#a9674c" opacity=".5"/>
+    <!-- cast shadow under the bustier hem, on the midriff -->
+    <path d="M 230 554 C 300 592, 372 574, 408 522 L 414 548 C 376 604, 300 626, 232 586 Z" fill="#a9674c" opacity=".5"/>
+    <path d="M 240 618 C 268 640, 306 646, 338 636 C 306 676, 262 678, 244 654 Z" fill="#f5c9a6" opacity=".45"/>
+    <!-- secondary rim on the back edge -->
+    <use href="#backEdge" fill="none" stroke="#f6cba6" stroke-width="14" stroke-linecap="round" opacity=".8"/>
+    <!-- rim light along the front edge -->
+    <use href="#frontEdge" fill="none" stroke="#fff3e2" stroke-width="22" stroke-linecap="round"/>
+    <use href="#frontEdge" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity=".85"/>
+    <!-- hot core on the bust crest and the throat -->
+    <path d="M 142 272 C 116 306, 108 336, 118 366 L 102 372 C 92 336, 102 300, 126 264 Z" fill="#ffffff"/>
+    <path d="M 258 96 C 260 134, 254 158, 240 178 L 230 168 C 244 148, 250 126, 248 94 Z" fill="#ffffff" opacity=".8"/>
+  </g>
+
+  <!-- ===== raised arm ===== -->
+  <use href="#armPath" fill="#e8b192"/>
+  <g clip-path="url(#armClip)">
+    <path d="M 440 -20 C 432 60, 434 140, 448 212 L 520 212 L 520 -20 Z" fill="#bd8261"/>
+    <path d="M 472 -20 C 466 70, 470 148, 480 212 L 520 212 L 520 -20 Z" fill="#9a6046" opacity=".85"/>
+    <path d="M 372 170 C 390 202, 420 220, 452 212 C 418 230, 384 212, 366 180 Z" fill="#8e5339" opacity=".55"/>
+    <path d="M 412 -20 C 400 50, 386 116, 372 170 L 388 178 C 402 120, 414 52, 424 -20 Z" fill="#fff3e2"/>
+  </g>
+
+  <!-- ===== purple satin bustier ===== -->
+  <use href="#topPath" fill="url(#purple)"/>
+  <g clip-path="url(#topClip)">
+    <!-- the far side of the band falls into shadow -->
+    <path d="M 352 330 C 396 388, 414 452, 404 540 L 520 540 L 520 280 Z" fill="#20052c" opacity=".92"/>
+    <path d="M 276 340 C 320 400, 340 474, 332 556 L 412 566 C 424 456, 402 378, 358 328 Z" fill="#20052c" opacity=".45"/>
+    <!-- under-bust shadow -->
+    <path d="M 110 356 C 150 426, 236 470, 330 448 C 296 520, 194 540, 128 470 Z" fill="#20052c" opacity=".5"/>
+    <!-- broad sheen wrapping the bust -->
+    <path d="M 140 296 C 114 324, 108 358, 124 392 C 142 428, 176 448, 204 472 L 240 456 C 206 428, 172 404, 160 372 C 148 338, 156 314, 182 290 Z" fill="url(#sheen)" opacity=".9"/>
+    <!-- chrome band along the crest -->
+    <path d="M 134 292 C 112 320, 106 354, 120 388 L 142 378 C 128 348, 132 320, 152 296 Z" fill="#ffffff" opacity=".85"/>
+    <path d="M 216 320 C 194 366, 198 424, 228 480 L 252 470 C 224 418, 222 366, 240 322 Z" fill="url(#sheenV)" opacity=".45"/>
+    <!-- boning seams following the cup -->
+    <path d="M 188 318 C 160 360, 164 420, 198 476" fill="none" stroke="#20052c" stroke-width="3" opacity=".5"/>
+    <path d="M 194 318 C 166 360, 170 420, 204 476" fill="none" stroke="#f9e2ff" stroke-width="1.6" opacity=".4"/>
+    <path d="M 292 340 C 282 412, 292 486, 314 546" fill="none" stroke="#20052c" stroke-width="3" opacity=".45"/>
+    <!-- glitter -->
+    <rect x="80" y="260" width="420" height="340" fill="url(#glitter)" opacity=".8"/>
+  </g>
+  <!-- garment edges -->
+  <path d="M 137 288 C 166 320, 226 338, 288 340 C 350 342, 412 314, 442 284" fill="none" stroke="#f9e2ff" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 230 554 C 300 592, 372 574, 408 522" fill="none" stroke="#20052c" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+  <path d="M 137 288 C 121 310, 115 332, 124 358 C 134 392, 164 418, 198 442" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+
+  <!-- ===== sparkles ===== -->
+  <use href="#sparkle" x="112" y="330" width="54" height="54" transform="translate(-27 -27)"/>
+  <use href="#sparkle" x="176" y="440" width="30" height="30" transform="translate(-15 -15)"/>
+  <use href="#sparkle" x="286" y="340" width="34" height="34" transform="translate(-17 -17)"/>
+  <use href="#sparkle" x="246" y="170" width="24" height="24" transform="translate(-12 -12)"/>
+  <use href="#sparkle" x="432" y="84" width="26" height="26" transform="translate(-13 -13)"/>
+  <use href="#sparkle" x="374" y="556" width="22" height="22" transform="translate(-11 -11)"/>
+  <use href="#sparkle" x="76" y="592" width="28" height="28" transform="translate(-14 -14)"/>
+  <use href="#sparkle" x="516" y="400" width="20" height="20" transform="translate(-10 -10)"/>
+</svg>
