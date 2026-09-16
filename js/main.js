@@ -74,17 +74,17 @@
         if (hasST) ScrollTrigger.refresh();
       }
     });
-    tl.call(() => window.SILK && window.SILK.reveal(1100), null, 0.15)
-      .to(loader, { yPercent: -100, duration: 1.1, ease: 'expo.inOut' }, 0)
-      .from('.hero__top .eyebrow', { y: 16, opacity: 0, duration: 1, stagger: 0.08 }, 0.6);
-    if (chars) tl.from(chars, { yPercent: 110, duration: 1.4, stagger: 0.05, ease: 'expo.out' }, 0.55);
-    else tl.from(heroTitle, { y: 60, opacity: 0, duration: 1.2 }, 0.55);
-    tl.from('.hero__dollar', { opacity: 0, y: 20, duration: 1 }, 1.0)
-      .from('.hero__tag', { y: 30, opacity: 0, duration: 1.1 }, 1.0)
-      .from('.hero__copy > *', { y: 24, opacity: 0, duration: 1, stagger: 0.1 }, 1.1)
-      .from('.ca', { y: 16, opacity: 0, duration: 0.9 }, 1.3)
-      .from('.nav', { y: -20, opacity: 0, duration: 0.9 }, 1.0)
-      .from('.hero__scroll', { opacity: 0, duration: 1 }, 1.6);
+    tl.call(() => window.SILK && window.SILK.reveal(950), null, 0.1)
+      .to(loader, { yPercent: -100, duration: 0.95, ease: 'expo.inOut' }, 0)
+      .from('.hero__top .eyebrow', { y: 16, opacity: 0, duration: 0.9, stagger: 0.07 }, 0.5);
+    if (chars) tl.from(chars, { yPercent: 110, duration: 1.25, stagger: 0.045, ease: 'expo.out' }, 0.45);
+    else tl.from(heroTitle, { y: 60, opacity: 0, duration: 1.1 }, 0.45);
+    tl.from('.hero__dollar', { opacity: 0, y: 20, duration: 0.9 }, 0.82)
+      .from('.hero__tag', { y: 30, opacity: 0, duration: 1 }, 0.82)
+      .from('.hero__copy > *', { y: 24, opacity: 0, duration: 0.95, stagger: 0.09 }, 0.9)
+      .from('.ca', { y: 16, opacity: 0, duration: 0.85 }, 1.05)
+      .from('.nav', { y: -20, opacity: 0, duration: 0.85 }, 0.8)
+      .from('.hero__scroll', { opacity: 0, duration: 0.9 }, 1.25);
   }
 
   function preload() {
@@ -297,8 +297,8 @@
   // Masked image reveal + inner parallax
   $$('[data-reveal-mask] .frame__art').forEach((el) => {
     gsap.to(el, {
-      clipPath: 'inset(0 0 0% 0)', duration: 1.6, ease: 'expo.inOut',
-      scrollTrigger: { trigger: el, start: 'top 80%', once: true }
+      clipPath: 'inset(0 0 0% 0)', duration: 1.15, ease: 'expo.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
     });
   });
   $$('.frame--tall .art').forEach((el) => {
